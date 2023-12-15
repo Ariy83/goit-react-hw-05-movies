@@ -1,4 +1,4 @@
-import useHttp from 'components/hooks/useHttp'
+import useHttp from 'hooks/useHttp'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { fetchMovieByCast } from 'services/api'

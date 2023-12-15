@@ -1,7 +1,7 @@
 import React from "react"
 import { fetchMovies } from "services/api";
 import HomeMovies from "components/HomeMovies/HomeMovies";
-import useHttp from "components/hooks/useHttp";
+import useHttp from "hooks/useHttp";
 
 const HomePage = () => {
 

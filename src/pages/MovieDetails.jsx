@@ -1,5 +1,5 @@
 import { Loader } from 'components/Loader/Loader'
-import useHttp from 'components/hooks/useHttp'
+import useHttp from 'hooks/useHttp'
 import React, { Suspense, useRef } from 'react'
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { fetchMovieById } from 'services/api'
