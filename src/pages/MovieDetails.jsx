@@ -4,6 +4,7 @@ import React, { Suspense, useRef } from 'react'
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { fetchMovieById } from 'services/api'
 import styled from 'styled-components'
+import img from '../img/poster.jpg'
 
 const MovieDetails = () => {
   const { movieId } = useParams()
@@ -11,12 +12,11 @@ const MovieDetails = () => {
   const [movie] = useHttp(fetchMovieById, movieId)
 
   const location = useLocation()
-  
-  const goBackRef = useRef(location.state?.from || '/')
   const navigate = useNavigate()
-
+  const goBackRef = useRef(location.state?.from || '/')
+  
   const handleGoBack = () => {
-		navigate(goBackRef.current)
+    navigate(goBackRef.current)
 	}
 
 	if (!movie) {
@@ -29,40 +29,44 @@ const MovieDetails = () => {
   
   return (
     <div>
-      <button onClick={handleGoBack}> Go back</button>
+      <StyledBtn onClick={handleGoBack}> Go back</StyledBtn>
       <br />
       <StyledWrap>
-{/* '../img/poster.jpg' */}
-      <StyledImg src={poster_path} alt={title} width={300} height={400} />
-      <StyledFlex>
-        <h2>{title} ({releaseYear})</h2>
-        <p>User Score (Vote Average): {vote_average}</p>
-        <h3>Overview</h3>
-        <p>{overview}</p>
-        <h4>Genres</h4>
-        <StyledWrapMini>{genresString}</StyledWrapMini>
+        {poster_path ? <StyledImg src={`https://image.tmdb.org/t/p/w300${poster_path}`} alt={title} />
+          : <StyledImg src={img} alt={title} />
+        }
+        <StyledFlex>
+          <h2>{title} ({releaseYear})</h2>
+          <p>User Score (Vote Average): {vote_average}</p>
+          <h3>Overview</h3>
+          <p>{overview}</p>
+          <h4>Genres</h4>
+          <StyledWrapMini>{genresString}</StyledWrapMini>
         </StyledFlex>
-        </StyledWrap>
+      </StyledWrap>
       <hr />
       
       <p>Additional information</p>
       <ul>
-        <li><Link to='/movies/:movieId/cast' id={movieId}>Cast</Link></li>
-        <li><Link to='/movies/:movieId/reviews'>Reviews</Link></li>
-      </ul>
-						
+        <li><Link to='cast' id={movieId}>Cast</Link></li>
+        <li><Link to='reviews'>Reviews</Link></li>
+
 			<Suspense fallback={<Loader />}>
 				<Outlet />
 			</Suspense>
+      </ul>
+						
     </div>
   )
 }
 
-export default MovieDetails
+const StyledBtn =styled.button`
+  margin-bottom: 8px;
+`
 
 const StyledImg = styled.img`
   display: block;
-  background-color: lightgoldenrodyellow
+  height: auto;
 `
 
 const StyledFlex = styled.div`
@@ -79,3 +83,4 @@ const StyledWrapMini = styled.div`
 display: flex; 
 gap: 5px;
 `
+export default MovieDetails
