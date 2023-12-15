@@ -1,18 +1,32 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://pixabay.com';
+axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
-export const fetchImagesByQuery = async apiOptions => {
-  const { data } = await axios.get('/api/', {
+const API_KEY = '38073b7a97af15277e125ef03e31899b';
+
+export const fetchMovies = async () => {
+  const { data } = await axios.get('/trending/movie/day', {
     params: {
-      key: '40691933-b7715a41418a5dba6dc83beb8',
-      page: 1,
-      per_page: 12,
-      q: null,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      ...apiOptions,
+      api_key: API_KEY,
+    },
+  });
+  return data.results;
+};
+
+export const fetchMovieById = async id => {
+  const { data } = await axios.get(`/movie/${id}`, {
+    params: {
+      api_key: API_KEY,
     },
   });
   return data;
+};
+
+export const fetchMovieByCast = async id => {
+  const { data } = await axios.get(`/movie/${id}/credits`, {
+    params: {
+      api_key: API_KEY,
+    },
+  });
+  return data.cast;
 };
